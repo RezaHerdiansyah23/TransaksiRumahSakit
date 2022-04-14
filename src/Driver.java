@@ -10,7 +10,22 @@ import java.util.Scanner;
  *
  * @author REZA
  */
+
 public class Driver {
+    public static boolean getYesOrNo(String message) {
+        Scanner terminalInput = new Scanner(System.in);
+        System.out.print("\n" + message + " (y/n)? ");
+        String pilihanUser = terminalInput.next();
+
+        while (!pilihanUser.equalsIgnoreCase("y") && !pilihanUser.equalsIgnoreCase("n")) {
+            System.err.println("Pilihan anda bukan y atau n");
+            System.out.print("\n" + message + " (y/n)? ");
+            pilihanUser = terminalInput.next();
+        }
+
+        return pilihanUser.equalsIgnoreCase("y");
+
+    }
 
     /**
      * @param args the command line arguments
@@ -19,137 +34,72 @@ public class Driver {
         // TODO code application logic here
         Scanner input = new Scanner(System.in);
 
-        int pilihan, totalTagihan, jumlah, tarifKamar, jumlahHari, charge, usia;
-        System.out.println("Pilih Menu : ");
-        pilihan = input.nextInt();
+        int pilihan, totalTagihan, jumlah, tarifKamar = 0, jumlahHari, charge, usia, total;
+        boolean isLanjutkan = true;
+        while (isLanjutkan) {
+            System.out.println("╔════════════════════════════════════════════╗");
+            System.out.println("║               LIST LAYANAN                 ║");
+            System.out.println("╚════════════════════════════════════════════╝");
+            System.out.println("╔═════╦═════════════════════════════════════╗");
+            System.out.println("║ No  ║     Kategori Layanan                ║");
+            System.out.println("╠═════╬═════════════════════════════════════╬");
+            System.out.println("║   1 ║ Kelas 1             Rp600000/hari   ║");
+            System.out.println("║   2 ║ Kelas 2             Rp400000/hari   ║");
+            System.out.println("║   3 ║ Kelas 3             Rp200000/hari   ║");
+            System.out.println("╚═════╩═════════════════════════════════════╝");
+            System.out.println("Pilih Menu : ");
+            pilihan = input.nextInt();
+            switch (pilihan) {
+                case 1:
+                    tarifKamar = 600000;
+                    break;
+                case 2:
+                    tarifKamar = 400000;
+                    break;
+                case 3:
+                    tarifKamar = 200000;
+                    break;
+                default:
+                    System.err.print("Pilihan anda tidak ada");
+            }
 
-        switch (pilihan) {
-            case 1:
-                System.out.println("anda akan memilih kamar");
-                System.out.print("Masukkan akan berapa hari = ");
-                jumlahHari = input.nextInt();
+            System.out.print("Masukkan akan berapa hari = ");
+            jumlahHari = input.nextInt();
+            total = tarifKamar * jumlahHari;
+            System.out.print("usia pasien = ");
+            usia = input.nextInt();
+            if (usia >= 17) {
+                charge = 500000;
+                System.out.println("pasien masuk kedalam kategori umum");
+            } else if (usia <= 16) {
+                charge = 700000;
+                System.out.println("pasien masuk kedalam kategori umum");
+            } else if (usia <= 5) {
+                charge = 1000000;
+                System.out.println("pasien masuk kedalam kategori umum");
+            } else {
+                charge = 0;
+                System.out.println("pasien idak masuk kedalam kategori apapun");
+            }
+
+            System.out.println("apakah Pasien memiliki Bpjs (y/n)?");
+            String bpjs = input.next();
+            if (bpjs.equalsIgnoreCase("y")) {
+                System.out.println("Anda memiliki BPJS");
                 System.out.println("========================================");
-                tarifKamar = jumlahHari * 600000;
-                System.out.println("Tarif Kamar = Rp. " + tarifKamar);
-                System.out.print("usia pasien = ");
-                usia = input.nextInt();
-                if (usia >= 17) {
-                    charge = 500000;
-                    System.out.println("pasien masuk kedalam kategori umum");
-                } else if (usia <= 16) {
-                    charge = 700000;
-                    System.out.println("pasien masuk kedalam kategori umum");
-                } else if (usia <= 5) {
-                    charge = 1000000;
-                    System.out.println("pasien masuk kedalam kategori umum");
-                } else {
-                    charge = 0;
-                    System.out.println("pasien idak masuk kedalam kategori apapun");
-                }
-
-                System.out.println("apakah Pasien memiliki Bpjs (y/n)?");
-                String bpjs = input.next();
-                if (bpjs.equalsIgnoreCase("y")) {
-                    System.out.println("Anda memiliki BPJS");
-                    System.out.println("========================================");
-                    System.out.println("Anda mendapatkan diskon sebesar 30%");
-                    jumlah = tarifKamar + charge;
-                    totalTagihan = jumlah - (jumlah * 30 / 100);
-                    System.out.println("Total tagihan anda adalah Rp. " + totalTagihan);
-                } else {
-                    System.out.println("Anda tidak memiliki BPJS");
-                    System.out.println("========================================");
-                    jumlah = tarifKamar + charge;
-                    System.out.println("Total tagihan anda adalah Rp. " + jumlah);
-                }
-
-                break;
-            case 2:
-                System.out.println("anda akan memilih kamar");
-                System.out.print("Masukkan akan berapa hari = ");
-                jumlahHari = input.nextInt();
+                System.out.println("Anda mendapatkan diskon sebesar 30%");
+                jumlah = total + charge;
+                totalTagihan = jumlah - (jumlah * 30 / 100);
+                System.out.println("Total tagihan anda adalah Rp. " + totalTagihan);
                 System.out.println("========================================");
-                tarifKamar = jumlahHari * 400000;
-                System.out.println("Harga Solar = Rp. " + tarifKamar);
-
-                System.out.print("usia pasien = ");
-                usia = input.nextInt();
-                if (usia >= 17) {
-                    charge = 500000;
-                    System.out.println("pasien masuk kedalam kategori umum");
-                } else if (usia <= 16) {
-                    charge = 700000;
-                    System.out.println("pasien masuk kedalam kategori umum");
-                } else if (usia <= 5) {
-                    charge = 1000000;
-                    System.out.println("pasien masuk kedalam kategori umum");
-                } else {
-                    charge = 0;
-                    System.out.println("pasien idak masuk kedalam kategori apapun");
-                }
-
-                System.out.println("apakah Pasien memiliki Bpjs (y/n)?");
-                bpjs = input.next();
-                if (bpjs.equalsIgnoreCase("y")) {
-                    System.out.println("Anda memiliki BPJS");
-                    System.out.println("========================================");
-                    System.out.println("Anda mendapatkan diskon sebesar 30%");
-                    jumlah = tarifKamar + charge;
-                    totalTagihan = jumlah - (jumlah * 30 / 100);
-                    System.out.println("Total tagihan anda adalah Rp. " + totalTagihan);
-                } else {
-                    System.out.println("Anda tidak memiliki BPJS");
-                    System.out.println("========================================");
-                    jumlah = tarifKamar + charge;
-                    System.out.println("Total tagihan anda adalah Rp. " + jumlah);
-                }
-
-                break;
-            case 3:
-                System.out.println("anda akan memilih kamar");
-                System.out.print("Masukkan akan berapa hari = ");
-                jumlahHari = input.nextInt();
+            } else {
+                System.out.println("Anda tidak memiliki BPJS");
                 System.out.println("========================================");
-                tarifKamar = jumlahHari * 200000;
-                System.out.println("Harga Solar = Rp. " + tarifKamar);
-
-                System.out.print("usia pasien = ");
-                usia = input.nextInt();
-                if (usia >= 17) {
-                    charge = 500000;
-                    System.out.println("pasien masuk kedalam kategori umum");
-                } else if (usia <= 16) {
-                    charge = 700000;
-                    System.out.println("pasien masuk kedalam kategori umum");
-                } else if (usia <= 5) {
-                    charge = 1000000;
-                    System.out.println("pasien masuk kedalam kategori umum");
-                } else {
-                    charge = 0;
-                    System.out.println("pasien idak masuk kedalam kategori apapun");
-                }
-
-                System.out.println("apakah Pasien memiliki Bpjs (y/n)?");
-                bpjs = input.next();
-                if (bpjs.equalsIgnoreCase("y")) {
-                    System.out.println("Anda memiliki BPJS");
-                    System.out.println("========================================");
-                    System.out.println("Anda mendapatkan diskon sebesar 30%");
-                    jumlah = tarifKamar + charge;
-                    totalTagihan = jumlah - (jumlah * 30 / 100);
-                    System.out.println("Total tagihan anda adalah Rp. " + totalTagihan);
-                } else {
-                    System.out.println("Anda tidak memiliki BPJS");
-                    System.out.println("========================================");
-                    jumlah = tarifKamar + charge;
-                    System.out.println("Total tagihan anda adalah Rp. " + jumlah);
-                }
-
-                break;
-            default:
-                System.out.println("Anda tidak memilih menu yang tersedia");
+                jumlah = total + charge;
+                System.out.println("Total tagihan anda adalah Rp. " + jumlah);
+                System.out.println("========================================");
+            }
+            isLanjutkan = getYesOrNo("Apakah anda Ingin Lanjutkan : ");
         }
-
     }
-
 }
